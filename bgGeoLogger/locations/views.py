@@ -19,14 +19,19 @@ class CoordinateLoggerAPIHandler(APIView):
         Log the coordinates and associate them wtih a user
         """
         
-        serializer = CoordinatesSerializer( data=request.data )
-        
-        if serializer.is_valid():
-            coords = Coordinates.objects.create(
-                latitude = serializer.data.get('latitude'),
-                longitude = serializer.data.get('longitude'),
-                account = request.user
-            )
-            return Response( { 'id': coords.id }, status=status.HTTP_201_CREATED )
-        else:
-            return Response( { }, status=status.HTTP_400_BAD_REQUEST )
+        # serializer = CoordinatesSerializer( data=request.data )
+    
+    
+        coords = Coordinates.objects.create(
+            altitude = request.data.get('location').get('coords').get('altitude'),
+            longitude = request.data.get('location').get('coords').get('longitude'),
+            latitude = request.data.get('location').get('coords').get('latitude'),
+            altitudeAccuracy = request.data.get('location').get('coords').get('altitudeAccuracy'),
+            accuracy = request.data.get('location').get('coords').get('accuracy'),
+            
+            is_moving = request.data.get('location').get('is_moving'),
+            
+            
+            account = request.user
+        )
+        return Response( { 'id': coords.id }, status=status.HTTP_201_CREATED )

@@ -5,8 +5,13 @@ from django.contrib.auth.models import User
 
 
 class Coordinates(models.Model):
-    latitude = models.FloatField()
+    altitude = models.FloatField()
     longitude = models.FloatField()
+    latitude = models.FloatField()
+    altitudeAccuracy = models.FloatField()
+    accuracy = models.IntegerField()
+
+    is_moving = models.BooleanField()
     
     account = models.ForeignKey(User)
     
@@ -14,4 +19,3 @@ class Coordinates(models.Model):
     
     def __str__(self):
         return '%.5f, %.5f' % ( self.latitude, self.longitude )
-
